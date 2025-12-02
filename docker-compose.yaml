@@ -1,22 +1,32 @@
-version: '3.8'
-
 services:
   bambooai-webapp:
+    image: bambooai
+    container_name: bambooai-webapp
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bambooai-webapp
+    env_file: .env
     ports:
-      - "5001:5000"
+      - "5000:5000"
     volumes:
       # Mount local configuration files
-      - ./web_app/.env:/app/web_app/.env
-      - ./web_app/LLM_CONFIG.json:/app/web_app/LLM_CONFIG.json
+      - ./.env:/app/web_app/.env
+      - ./LLM_CONFIG.json:/app/web_app/LLM_CONFIG.json
       
       # Mount persistent storage directories
-      - ./web_app/storage:/app/web_app/storage
-      - ./web_app/temp:/app/web_app/temp
-      - ./web_app/logs:/app/web_app/logs
-    
+      - ./volumes/storage:/app/web_app/storage
+      - ./volumes/temp:/app/web_app/temp
+      - ./volumes/logs:/app/web_app/logs
     # Restart policy
     restart: unless-stopped
+    networks:
+      bamboo:
+
+networks:
+  bamboo:
+    name: bamboo
+    driver: bridge
+    # Adjust the MTU value according to your physical system setup. Default is 1500.
+    # A wrong value will lead to weird connection issues (e.g., apt cannot retrieve packages and so on).
+    # driver_opts:
+    #   com.docker.network.driver.mtu: 1450
