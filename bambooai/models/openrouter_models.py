@@ -10,12 +10,11 @@ google_search_function = google_search.SmartSearchOrchestrator()
 
 def init():
     API_KEY = os.environ.get('OPENROUTER_API_KEY')
-    if API_KEY is None:
+    BASE_URL = os.environ.get('OPENROUTER_BASE_URL')
+    if API_KEY is None or BASE_URL is None:
         return
     else:
-        openai_client = openai.OpenAI()
-        openai_client.api_key = API_KEY
-        openai_client.base_url = "https://openrouter.ai/api/v1"
+        openai_client = openai.OpenAI(api_key=API_KEY, base_url=BASE_URL)
         return openai_client
 
 def llm_call(messages: str,model: str,temperature: str,max_tokens: str, response_format: str = None):  

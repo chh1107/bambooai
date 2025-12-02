@@ -12,7 +12,7 @@ import openai
 from google import genai
 from google.genai.types import Tool, GenerateContentConfig, GoogleSearch
 
-openai_client = openai.OpenAI()
+openai_client = openai.OpenAI(api_key=os.environ.get('OPENROUTER_API_KEY'), base_url=os.environ.get('OPENROUTER_BASE_URL'))
 
 SEARCH_MODE = os.environ.get('WEB_SEARCH_MODE', 'google_ai')
 MAX_ITERATIONS = 5

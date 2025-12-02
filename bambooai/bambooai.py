@@ -52,8 +52,8 @@ class BambooAI:
         self.search_mode = os.getenv('WEB_SEARCH_MODE', 'google_ai')
 
         # Check if the OPENAI_API_KEY environment variable is set
-        if not os.getenv('OPENAI_API_KEY'):
-            raise EnvironmentError("OPENAI_API_KEY environment variable not found.")
+        # if not os.getenv('OPENAI_API_KEY'):
+        #     raise EnvironmentError("OPENAI_API_KEY environment variable not found.")
         
         # Check if search tool requirements are met
         def validate_search_tool(self, search_tool, search_mode):
@@ -61,7 +61,7 @@ class BambooAI:
                 return False
                 
             if search_mode == 'google_ai':
-                if not os.getenv('GEMINI_API_KEY'):
+                if not os.getenv('GEMINI_API_KEY') and not os.getenv('OPENROUTER_API_KEY'):
                     self.output_manager.display_system_messages(
                         "Warning: GEMINI_API_KEY environment variable not found. Disabling google_search."
                     )
